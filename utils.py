@@ -39,7 +39,19 @@ def source_secrets(con,
     set_secrets(con, key, secret, endpoint = endpoint, bucket = bucket)
 
 
+## kinda silly wraper to minio.Minio but provides my defaults.  Sadly also not working with source.coop yet
+import minio
+def s3_client(type="minio"):
+    minio_key = st.secrets["MINIO_KEY"]
+    minio_secret = st.secrets["MINIO_SECRET"]
+    client = minio.Minio("minio.carlboettiger.info", minio_key, minio_secret)
+    if type == "minio":
+        return client
 
+    source_key = st.secrets["SOURCE_KEY"]
+    source_secret = st.secrets["SOURCE_SECRET"]
+    client = minio.Minio("data.source.coop", source_key, source_secret)
+    return client
 
 # Define H3 builtins for DuckDB
 

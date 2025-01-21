@@ -3,7 +3,7 @@ name = "cng"
 version = "1.0.0"
 
 dependencies = ["minio",
-                "ibis-framework",
+                "ibis-framework[duckdb]",
                 "duckdb",
                 "streamlit",
                 "pydeck"]

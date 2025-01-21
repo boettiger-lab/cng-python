@@ -9,4 +9,4 @@ dependencies = ["minio",
                 "pydeck"]
 
 [project.optional-dependencies]
-tests = ["pytest", "pytest-cov", "ibis-framework"]
+tests = ["pytest", "pytest-cov", "ibis-framework", "duckdb", "minio", "streamlit", "pydeck"]

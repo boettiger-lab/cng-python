@@ -1,5 +1,9 @@
 # Confirm environment is correctly defined:
-from cng import set_secrets
+from cng.utils import set_secrets
+import ibis
+
 
 def test_set_secrets():
-    set_secrets()
+    con = ibis.duckdb.connect()
+    set_secrets(con)
+

@@ -3,9 +3,10 @@ name = "cng"
 version = "1.0.0"
 
 dependencies = ["minio",
-                "ibis",
+                "ibis-framework",
                 "duckdb",
-                "streamlit"]
+                "streamlit",
+                "pydeck"]
 
 [project.optional-dependencies]
-
+tests = ["pytest", "pytest-cov", "ibis-framework"]

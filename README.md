@@ -5,13 +5,9 @@ A collection of some commonly used cloud-native geo utility functions for our py
 
 ## Install
 
-Should be refactored as an installable module.  For now just attach to sys path, e.g.:
 
 ```python
-import sys
-sys.path.append("../cng-python/")
-from utils import set_secrets, source_secrets
-
+pip install git+https://github.com/boettiger-lab/cng-python.git
 ```
 
 ## Utilities

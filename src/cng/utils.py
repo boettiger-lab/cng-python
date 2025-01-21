@@ -1,12 +1,12 @@
 import os
 import ibis
-import streamlit as st
+
 
 
 # DuckDB S3 authentication helpers
 def set_secrets(con,
-                key = st.secrets["MINIO_KEY"], 
-                secret = st.secrets["MINIO_SECRET"], 
+                key = os.getenv("MINIO_KEY", ""), 
+                secret = os.getenv("MINIO_SECRET", ""), 
                 endpoint = "minio.carlboettiger.info",
                 bucket = '',
                 url_style = "path"):
@@ -31,8 +31,8 @@ def set_secrets(con,
 
 
 def source_secrets(con, 
-                   key = st.secrets["SOURCE_KEY"], 
-                   secret = st.secrets["SOURCE_SECRET"],
+                   key = os.getenv("SOURCE_KEY", ""), 
+                   secret = os.getenv("SOURCE_SECRET", ""),
                    endpoint = "data.source.coop",
                    bucket = "cboettig"):
     set_secrets(con, key, secret, endpoint = endpoint, bucket = bucket)
@@ -40,17 +40,11 @@ def source_secrets(con,
 
 ## kinda silly wraper to minio.Minio but provides my defaults.  Sadly also not working with source.coop yet
 import minio
-def s3_client(type="minio"):
-    minio_key = st.secrets["MINIO_KEY"]
-    minio_secret = st.secrets["MINIO_SECRET"]
-    client = minio.Minio("minio.carlboettiger.info", minio_key, minio_secret)
-    if type == "minio":
-        return client
-
-    source_key = st.secrets["SOURCE_KEY"]
-    source_secret = st.secrets["SOURCE_SECRET"]
-    client = minio.Minio("data.source.coop", source_key, source_secret)
-    return client
+def s3_client(key = os.getenv("MINIO_KEY", ""), 
+              secret = os.getenv("MINIO_SECRET", ""), 
+              endpoint = "minio.carlboettiger.info"
+             ):
+    return minio.Minio(endpoint, key, secret)
 
 # Define H3 builtins for DuckDB
 
@@ -110,7 +104,7 @@ def DeckGlobe(layer):
 
 
 
-def terrain_style(key = st.secrets['MAPTILER_KEY'], exaggeration = 1):
+def terrain_style(key = os.getenv('MAPTILER_KEY'), exaggeration = 1):
     return {
         "version": 8,
         "sources": {
@@ -146,4 +140,18 @@ def terrain_style(key = st.secrets['MAPTILER_KEY'], exaggeration = 1):
     }
     
 
+
+
+# enable ibis to use built-in function from the h3 extension
+
+@ibis.udf.scalar.builtin
+def h3_cell_to_boundary_wkt	(array) -> str:
+    ...
+
+@ibis.udf.scalar.builtin
+def h3_latlng_to_cell(lat: float, lng: float, zoom: int) -> int:
+    ...
+@ibis.udf.scalar.builtin
+def hex(array) -> str:
+    ...
 

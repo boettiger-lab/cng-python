@@ -62,6 +62,10 @@ def duckdb_install_h3():
     db.install_extension("h3", repository = "community")
     db.close()
 
+@ibis.udf.scalar.builtin
+def hex(array) -> str:
+    ...
+
 # enable ibis to use built-in function from the h3 extension
 
 @ibis.udf.scalar.builtin

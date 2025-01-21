@@ -1,0 +1,11 @@
+[project]
+name = "cng"
+version = "1.0.0"
+
+dependencies = ["minio",
+                "ibis",
+                "duckdb",
+                "streamlit"]
+
+[project.optional-dependencies]
+

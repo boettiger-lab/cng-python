@@ -6,7 +6,12 @@ dependencies = ["minio",
                 "ibis-framework[duckdb]",
                 "duckdb",
                 "streamlit",
-                "pydeck"]
+                "pydeck",
+		"boto3",
+		"botocore",
+		"subprocess",
+		"tippecanoe",
+		"re"]
 
 [project.optional-dependencies]
 tests = ["pytest", "pytest-cov"]

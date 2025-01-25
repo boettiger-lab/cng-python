@@ -106,8 +106,9 @@ import streamlit as st
 def s3_cp(source, 
           dest, 
           profile = "minio",
-          key = st.secrets["MINIO_KEY"],
-          secret = st.secrets["MINIO_SECRET"]):
+          key = "", #st.secrets["MINIO_KEY"],
+          secret = "", #st.secrets["MINIO_SECRET"]
+          ):
 
     # assume dest is an s3_path?
     match = re.match(r'^s3://([^/]+)/(.*)$', dest)

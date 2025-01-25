@@ -9,7 +9,6 @@ dependencies = ["minio",
                 "pydeck",
 		"boto3",
 		"botocore",
-		"subprocess",
 		"tippecanoe",
 		"re"]
 

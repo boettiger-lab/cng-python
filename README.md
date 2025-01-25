@@ -22,8 +22,6 @@ from cng.utils import to_geojson, to_pmtiles, s3_cp
 parquet = 'https://minio.carlboettiger.info/public-biodiversity/pad-us-4/pad-us-4.parquet'
 to_geojson(parquet, "pad-us-4.geojson")
 pmtiles = to_pmtiles("pad-us-4.geojson", "pad-us-4.pmtiles")
-
-# upload, since pmtiles cannot stream to/from buckets
 s3_cp('pad-us-4.pmtiles', "s3://public-biodiversity/pad-us-4/pad-us-4.pmtiles", "minio")
 ```
 
@@ -32,7 +30,7 @@ Check out optional arguments for these functions.  In particular, note that `s3_
 Make sure geometries are valid and in the desired projection (e.g. EPSG:4326) first.  
 
 
- - `set_secrets()` Helper utility to read/write from S3 buckets. Particularly convenient for working with local minio buckets on Cirrus. duckdb S3 can read but not write to data.source.coop S3 at this time.
+ - `set_secrets()` Helper utility for ibis / duckdb to read/write from S3 buckets. Particularly convenient for working with local minio buckets on Cirrus. duckdb S3 can read but not write to data.source.coop S3 at this time.
 
 
 - Some pydeck helpers, from gbif hex maps

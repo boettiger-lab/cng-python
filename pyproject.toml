@@ -9,8 +9,7 @@ dependencies = ["minio",
                 "pydeck",
 		"boto3",
 		"botocore",
-		"tippecanoe",
-		"re"]
+		"tippecanoe"]
 
 [project.optional-dependencies]
 tests = ["pytest", "pytest-cov"]

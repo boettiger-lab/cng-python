@@ -235,10 +235,21 @@ def terrain_style(key = os.getenv('MAPTILER_KEY'), exaggeration = 1):
         ],
         "terrain": {"source": "terrainSource", "exaggeration": exaggeration},
     }
-    
 
-
-
+# upload file to huggingface
+from huggingface_hub import HfApi, login
+def hf_upload(file, path, repo_id = "boettiger-lab/ca-30x30", repo_type = "dataset", key = None):
+    if not key:
+        key = st.secrets["HF_TOKEN"]
+    login(key)
+    api = HfApi()
+    info = api.upload_file(
+            path_or_fileobj=path,
+            path_in_repo=file,
+            repo_id=repo_id,
+            repo_type=repo_type, 
+        )
+        
 # enable ibis to use built-in function from the h3 extension
 
 @ibis.udf.scalar.builtin

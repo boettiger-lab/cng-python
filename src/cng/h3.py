@@ -1,5 +1,5 @@
 # enable ibis to use built-in function from the h3 extension
-
+import ibis
 
 def to_h3j (df, path):
     cols = df.columns
@@ -50,6 +50,10 @@ def hex(array) -> str:
     ...
 
 @ibis.udf.scalar.builtin
-def h3_cell_to_parent(int, int) -> int:
+def h3_cell_to_parent(cell, zoom: int) -> int:
     ...
 
+
+@ibis.udf.scalar.builtin
+def h3_cell_to_parent_string(cell, zoom: int) -> str:
+    ...

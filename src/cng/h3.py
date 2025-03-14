@@ -2,9 +2,11 @@
 import ibis
 
 def to_h3j (df, path):
+
+    con = df._find_backend() # df.get_backend() ibis >= 10.0
     cols = df.columns
     sql = ibis.to_sql(df)
-    f'''
+    expr = f'''
         COPY (
           WITH t1 AS ({sql})
           SELECT json_group_array(struct_pack({cols}))
@@ -12,17 +14,24 @@ def to_h3j (df, path):
           FROM t1
         ) TO '{path}' (FORMAT JSON)
     '''
+    con.raw_sql(expr)
 
-def geom_to_cell (tbl, zoom = 3):
-   sql = f'''
-    WITH t1 AS (
-      SELECT *, ST_Dump(geom) AS geom 
-      FROM {tbl}
-    ) 
-    SELECT *,
+
+def geom_to_cell (df, zoom = 3):
+    con = df._find_backend() # df.get_backend() ibis >= 10.0
+    sql = ibis.to_sql(df)
+    expr = f'''
+        WITH t1 AS (
+        SELECT *, ST_Dump(geom) AS geom 
+        FROM ({sql})
+        ) 
+        SELECT *,
            h3_polygon_wkt_to_cells_string(UNNEST(geom).geom, {zoom}) AS h{zoom}
-    FROM t1
+        FROM t1
     '''
+
+    con.sql(expr)
+
 
 
 # .to_parquet(f"s3://public-biodiversity/pad-us-4/pad-h3-z{zoom}.parquet")

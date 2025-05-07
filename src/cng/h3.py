@@ -51,6 +51,10 @@ def h3_cell_to_boundary_wkt	(array) -> str:
     ...
 
 @ibis.udf.scalar.builtin
+def h3_latlng_to_cell_string(lat: float, lng: float, zoom: int) -> str:
+    ...
+
+@ibis.udf.scalar.builtin
 def h3_latlng_to_cell(lat: float, lng: float, zoom: int) -> int:
     ...
 

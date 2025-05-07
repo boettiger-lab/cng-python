@@ -6,7 +6,8 @@ import ibis
 # also see utils.to_geojson for path-based method
 
 # FIXME define as a method for an ibis table instead of a function
-def to_json (df, path, con):
+def to_json (df, path):
+  con = df._find_backend() # df.get_backend() ibis >= 10.0
   query = ibis.to_sql(df)
   con.raw_sql(f"COPY ({query}) TO '{path}' (FORMAT JSON, ARRAY true);")
 

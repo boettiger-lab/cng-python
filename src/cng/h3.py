@@ -16,21 +16,12 @@ def to_h3j (df, path):
     '''
     con.raw_sql(expr)
 
-
-def geom_to_cell (df, zoom = 3):
-    con = df._find_backend() # df.get_backend() ibis >= 10.0
-    sql = ibis.to_sql(df)
-    expr = f'''
-        WITH t1 AS (
-        SELECT *, ST_Dump(geom) AS geom 
-        FROM ({sql})
-        ) 
-        SELECT *,
-           h3_polygon_wkt_to_cells_string(UNNEST(geom).geom, {zoom}) AS h{zoom}
-        FROM t1
-    '''
-
-    con.sql(expr)
+# make sure h3 is installed.
+def install_h3(): 
+    import duckdb
+    db = duckdb.connect()
+    db.install_extension("h3", repository = "community")
+    db.close()
 
 
 
@@ -70,3 +61,31 @@ def h3_cell_to_parent(cell, zoom: int) -> int:
 @ibis.udf.scalar.builtin
 def h3_cell_to_parent_string(cell, zoom: int) -> str:
     ...
+
+@ibis.udf.scalar.builtin
+def ST_Multi (geom) -> dt.geometry:
+    ...
+    
+    
+def geom_to_cell (df, zoom = 8):
+    con = df._find_backend() # df.get_backend() ibis >= 10.0
+
+    # First make sure we are using multipolygons everywhere and not a mix
+    cases = ibis.cases(
+        (df.geom.geometry_type() == 'POLYGON' , ST_Multi(df.geom)),
+        else_=df.geom,
+    )
+    
+    df = df.mutate(geom = cases)
+    sql = ibis.to_sql(df)
+    expr = f'''
+        WITH t1 AS (
+        SELECT GEOID, UNNEST(ST_Dump(ST_GeomFromWKB(geom))).geom AS geom 
+        FROM ({sql})
+        ) 
+        SELECT *, h3_polygon_wkt_to_cells_string(geom, {zoom}) AS h{zoom}  FROM t1
+    '''
+
+    out = con.sql(expr)
+    return out
+

@@ -143,7 +143,6 @@ def s3_client(key = os.getenv("MINIO_KEY", ""),
              ):
     return minio.Minio(endpoint, key, secret)
 
-# Define H3 builtins for DuckDB
 
 # make sure h3 is installed.
 def duckdb_install_h3(): 

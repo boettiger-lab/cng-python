@@ -16,6 +16,7 @@ def raster_reprojection_cli(input_file, output_file, epsg="EPSG:3310"):
 
 
 # alternate reprojection via gdal python package
+# UGH just call gdal.Warp, no need to wrap this at all
 from osgeo import gdal
 def gdal_warp(input_file, output_file, dst_srs = None, crop_wkt = None, crop_file = None):
     """
@@ -37,6 +38,8 @@ def gdal_warp(input_file, output_file, dst_srs = None, crop_wkt = None, crop_fil
     
     ds = gdal.Open(input_file)
     # src_srs = ds.GetProjection()
+
+    # note: these named options can alos be passed directly to gdal.Warp()
     warp_options = gdal.WarpOptions(dstSRS=dst_srs,
                                     cutlineDSName = crop_file,
                                     cutlineWKT = crop_wkt,

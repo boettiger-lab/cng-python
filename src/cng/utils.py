@@ -6,9 +6,9 @@ import re
 
 # DuckDB S3 authentication helpers
 def set_secrets(con,
-                key = os.getenv("MINIO_KEY", ""), 
-                secret = os.getenv("MINIO_SECRET", ""), 
-                endpoint = "minio.carlboettiger.info",
+                key = os.getenv("AWS_ACCESS_KEY_ID", ""), 
+                secret = os.getenv("AWS_SECRET_ACCESS_KEY", ""), 
+                endpoint = os.getenv("AWS_S3_ENDPOINT", ""),
                 bucket = '',
                 url_style = "path"):
     

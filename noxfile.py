@@ -6,6 +6,6 @@ import nox
 @nox.session(python=["3.11", "3.12"])
 def test(session):
     # install
-    session.install(".[tests]")
+    session.install(".[tests,extras]")
     # Run tests
     session.run("pytest")

@@ -23,7 +23,7 @@ def set_secrets(con,
         url_style = 'vhost'    
 
 
-    if name = '':
+    if name == '':
       name = f's3_{key}_{bucket}'
                  
     if bucket != '':

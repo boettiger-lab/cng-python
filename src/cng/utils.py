@@ -16,16 +16,21 @@ def set_secrets(con,
                 url_compatibility_mode = True,
                 session_token = os.getenv("AWS_SESSION_TOKEN", ""),
                 type = "S3",
+                name = ""
                ):
     
     if 'amazonaws.com' in endpoint:
         url_style = 'vhost'    
 
+
+    if name = '':
+      name = f's3_{key}_{bucket}'
+                 
     if bucket != '':
         bucket = f"SCOPE 's3://{bucket}',"
 
     query = f'''
-    CREATE OR REPLACE SECRET s3_{key}_{bucket} (
+    CREATE OR REPLACE SECRET {name} (
         TYPE S3,
         KEY_ID '{key}',
         SECRET '{secret}',

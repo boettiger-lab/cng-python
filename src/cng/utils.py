@@ -25,7 +25,7 @@ def set_secrets(con,
         bucket = f"SCOPE 's3://{bucket}',"
 
     query = f'''
-    CREATE OR REPLACE SECRET s3_{key} (
+    CREATE OR REPLACE SECRET s3_{key}_{bucket} (
         TYPE S3,
         KEY_ID '{key}',
         SECRET '{secret}',

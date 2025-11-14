@@ -1,19 +1,21 @@
 [project]
 name = "cng"
-version = "1.0.6"
+version = "1.0.7"
 
 dependencies = ["minio",
                 "ibis-framework[duckdb]",
-                "duckdb",
-                "streamlit",
-                "pydeck",
-		"boto3",
-		"botocore",
-		"tippecanoe",
-                "huggingface_hub"]
+                "duckdb"
+               ]
 
 [project.optional-dependencies]
 tests = ["pytest", "pytest-cov"]
+extras = ["streamlit",
+          "pydeck",
+		  "boto3",
+		  "botocore",
+		  "tippecanoe",
+          "huggingface_hub"
+		  ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

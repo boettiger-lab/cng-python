@@ -4,6 +4,7 @@ version = "1.0.9"
 
 dependencies = ["minio",
                 "ibis-framework[duckdb]",
+                "tippecanoe",
                 "duckdb"
                ]
 
@@ -11,11 +12,10 @@ dependencies = ["minio",
 tests = ["pytest", "pytest-cov"]
 extras = ["streamlit",
           "pydeck",
-		  "boto3",
-		  "botocore",
-		  "tippecanoe",
+          "boto3",
+          "botocore",
           "huggingface_hub"
-		  ]
+      ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
